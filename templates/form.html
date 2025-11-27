@@ -1,5 +1,71 @@
 {% extends 'index.html' %}
 
 {% block form %}
+    <form id="orderForm" onsubmit="event.preventDefault(); submitOrder();">
+        <table class="input-table">
+            <tr>
+                <td>客戶名稱</td>
+                <td><input type="text" id="customer_name" required></td>
+            </tr>
+            <tr>
+                <td>備註</td>
+                <td><input type="text" id="product_note"></td>
+            </tr>
 
-{% endblock%}
+            <tr>
+                <td>日期</td>
+                <td><input type="date" id="product_date" required></td>
+            </tr>
+
+            <tr>
+                <td>狀態</td>
+                <td>
+                    <select id="product_status" required>
+                        <option value="未付款" selected>未付款</option>
+                        <option value="已付款">已付款</option>
+                        <option value="已完成">已完成</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>商品種類</td>
+                <td>
+                    <select id="category" onchange="selectCategory()" required>
+                        <option value="">請選擇種類</option>
+                        {% for category in categories %}
+                        <option value="{{ category }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>商品名稱</td>
+                <td>
+                    <select id="product_name" onchange="selectProduct()" required>
+                        <option value="">請先選種類</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>單價</td>
+                <td><input type="number" id="product_price" value="0" readonly></td>
+            </tr>
+
+            <tr>
+                <td>數量</td>
+                <td><input type="number" id="product_amount" value="1" min="1" oninput="countTotal()" required></td>
+            </tr>
+
+            <tr>
+                <td>小計</td>
+                <td><input type="number" id="product_total" value="0" readonly></td>
+            </tr>
+        </table>
+        <div class="modal-footer">
+            <button type="submit" id="submitOrderButton">確認新增</button>
+        </div>
+    </form>
+{% endblock %}
